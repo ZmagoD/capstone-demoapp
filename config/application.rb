@@ -25,7 +25,17 @@ module Myapp
     config.generators do |g|
       g.orm :active_record
     end
-    
+
+    config.middleware.insert_before 0, "Rack::Cors" do
+	    allow do
+		    origins '*'
+
+		    resource '/api/*',
+		      headers: :any,
+		      methods: [:get, :post, :put, :delete, :options]
+	    end
+    end
+
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
   end
